@@ -37,32 +37,35 @@ const main = () => {
         //setTimeout(buildGameOver, 3000);
 
         const game = new Game(canvasElement);
-        game.startLoop();
 
-        const setPlayerDirection = (event) => {
-            if (event.code === 'ArrowUp') {
-                game.player.setDirection(-1);
-            } else if (event.code === 'ArrowDown') {
-                game.player.setDirection(1);
-            };
+        game.gameOverCallback(buildGameOver);
+    }
+    game.startLoop();
+
+    const setPlayerDirection = (event) => {
+        if (event.code === 'ArrowUp') {
+            game.player.setDirection(-1);
+        } else if (event.code === 'ArrowDown') {
+            game.player.setDirection(1);
         };
-
-        document.addEventListener('keydown', setPlayerDirection);
     };
 
-    const buildGameOver = () => {
-        const gameOverScreen = buildDom(`
+    document.addEventListener('keydown', setPlayerDirection);
+};
+
+const buildGameOver = () => {
+    const gameOverScreen = buildDom(`
         <section class="game-over">
           <h1>Game Over Screen</h1>
           <button>Restart</button>
           </section>
       `);
 
-        const restartButton = document.querySelector('button');
-        restartButton.addEventListener('click', buildGameScreen);
-    }
+    const restartButton = document.querySelector('button');
+    restartButton.addEventListener('click', buildGameScreen);
+}
 
-    buildSplashScreen();
+buildSplashScreen();
 };
 
 window.addEventListener('load', main);

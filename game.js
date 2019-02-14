@@ -6,6 +6,7 @@ class Game {
         this.ctx = this.canvas.getContext('2d');
         this.player;
         this.enemies = [];
+        this.isGameOver = false;
     };
 
     startLoop() {
@@ -48,5 +49,18 @@ class Game {
     }
     checkAllCollisions() {
         this.player.checkScreen();
+        this.enemies.forEach((enemy) => {
+            if (this.player.checkCollisionEnemy(enemy)) {
+                this.player.loseLive();
+                this.enemies.splice(index, 1);
+                if (this.player.lives === 0) {
+                    this.onGameOver();
+                }
+            }
+        });
+    };
+
+    gameOverCallback(callback) {
+        this.onGameOver = callback;
     }
 };
